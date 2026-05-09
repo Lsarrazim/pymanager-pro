@@ -2,7 +2,7 @@ import json
 import os
 
 DATA_FILE = os.path.join(
-    os.path.dirname(__file__), "..", "data", "users.name"
+    os.path.dirname(__file__), "..", "data", "users.json"
 )
 
 def load_users() -> list:
