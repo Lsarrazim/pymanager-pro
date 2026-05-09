@@ -1,6 +1,8 @@
 SYSTEM_NAME = "PyManager Pro"
 VERSION = "1.0.0"
 
+from core.auth import register_user
+
 def show_header():
     print("=" * 40)
     print(f" {SYSTEM_NAME} - v{VERSION}")
@@ -38,7 +40,7 @@ def main():
             print("\n [] Sistema de login...")
 
         elif choice == "2":
-            print("\n [] Sistema de cadastro...")
+            register_user()
 
         elif choice == "0":
             show_goodbye("usuario")
