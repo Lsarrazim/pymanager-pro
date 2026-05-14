@@ -6,7 +6,7 @@ DATA_FILE = os.path.join(
     os.path.dirname(__file__), "..", "data", "users.json"
 )
 
-def lead_users() -> list:
+def load_users() -> list:
     
     if not os.path.exists(DATA_FILE):
         return []
@@ -21,7 +21,7 @@ def save_users(users: list) -> None:
 
 def email_exists(email: str, users: list) ->  bool:
 
-    return any(user[email] == email for user in users)
+    return any(user["email"] == email for user in users)
 
 def register_user() -> None:
 
@@ -32,7 +32,7 @@ def register_user() -> None:
     users = load_users()
 
     while True:
-        name = input("\n Nome").strip
+        name = input("\n Nome").strip()
 
         if not name:
             print("nome nao pode ser vazio")
@@ -46,7 +46,7 @@ def register_user() -> None:
 
     while True:
 
-        email = input(" Email: ").strip.lower()
+        email = input(" Email: ").strip().lower()
 
         if not email:
             print(" Email não pode vazio. ")
@@ -61,6 +61,29 @@ def register_user() -> None:
             continue
             
         break
+
+    while True:
+        password = input(" Senha: ").strip()
+
+        if not passworld:
+            print("  Senha nao pode ser vazia ")
+            continue
+        
+        if len(password) < 4:
+            print("  Senha muito curto. Mínimo 4 caracteres.")
+
+        break
+
+        new_user = {
+            "name": name,
+            "email": email,
+            "password": password
+        }
+
+        users.append(new_user)
+        save_users(users)
+
+        print(f"\n Conta Criada com sucesso!")
 
 def login_user() -> dict | None:
 
@@ -95,6 +118,7 @@ def login_user() -> dict | None:
         print("\n Senha incorreta")
         return None
     
-    print(f"\n Bem vindo de volta, {user['nome']}!")
+    print(f"\n Bem vindo de volta, {user['name']}!")
+    return user 
 
 
