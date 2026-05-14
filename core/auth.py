@@ -1,11 +1,13 @@
-import json 
-import os
+
+import json
+import os 
 
 DATA_FILE = os.path.join(
     os.path.dirname(__file__), "..", "data", "users.json"
 )
 
-def load_users() -> list:
+def lead_users() -> list:
+    
     if not os.path.exists(DATA_FILE):
         return []
     
@@ -13,69 +15,86 @@ def load_users() -> list:
         return json.load(f)
 
 def save_users(users: list) -> None:
-    with open (DATA_FILE, "w", encoding="utf-8") as f:
+
+    with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(users, f, indent=4, ensure_ascii=False)
 
-def email_exists(email: str, users: list) -> bool:
-    return any(user["email"] == email for user in users)
+def email_exists(email: str, users: list) ->  bool:
+
+    return any(user[email] == email for user in users)
 
 def register_user() -> None:
 
-    print ("\n" + "=" * 40)
-    print (" CRIAR CONTA")
-    print ("=" * 40)
+    print("\n" + "=" * 40)
+    print(" CRIAR CONTA")
+    print("=" * 40)
 
     users = load_users()
 
     while True:
-        name = input("\n Nome: ").strip()
+        name = input("\n Nome").strip
 
         if not name:
-            print("Nome não pode ser vazio")
+            print("nome nao pode ser vazio")
             continue
-
-        if len(name) < 2 :
+        
+        if len(name) < 2:
             print("Nome muito curto")
             continue
+
         break
-    
+
     while True:
-        email = input("\n email: ").strip().lower()
+
+        email = input(" Email: ").strip.lower()
 
         if not email:
-            print("email nao pode ser vazio")
+            print(" Email não pode vazio. ")
             continue
         
         if "@" not in email:
-            print("Email invalido")
+            print ("Email inválido")
             continue
-        
+
         if email_exists(email, users):
-            print("Email já cadastrado")
+            print("Email ja cadastrado")
             continue
-
+            
         break
 
-    while True:
-        password = input("\n password: ")
+def login_user() -> dict | None:
 
-        if not password:
-            print("password nao pode ser vazio")
-            continue
+    print("\n" + "=" * 40)
+    print(" ENTRAR NO SISTEMA")
+    print("=" * 40)
 
-        if len(password) < 4:
-            print ("password muito curto")
-            continue
+    users = load_users()
 
-        break
+    if not users:
+        print("\n Nenhum usuario cadastrado. ")
+        print(" Crie uma conta primeiro ")
+        return None
 
-    new_user = {
-        "name": name,
-        "email": email,
-        "password": password
-    }
+    email = input("\n Email: ").strip().lower()
 
-    users.append(new_user)
-    save_users(users)
+    if not email:
+        print("\n Email nao pode ser vazio")
 
-    print((f"\n conta criada com sucesso! bem vindo {name}"))
+    user = next(
+        (u for u in users if u["email"] == email)
+    ,None
+    )
+
+    if user is None:
+        print("\n Email nao encontrado")
+        return None
+
+    password = input("  senha: ").strip().lower()
+
+    if user["password"] != password:
+        print("\n Senha incorreta")
+        return None
+    
+    print(f"\n Bem vindo de volta, {user['nome']}!")
+
+

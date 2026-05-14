@@ -1,7 +1,8 @@
 SYSTEM_NAME = "PyManager Pro"
 VERSION = "1.0.0"
 
-from core.auth import register_user
+from core.auth import register_user, login_user
+
 
 def show_header():
     print("=" * 40)
@@ -37,7 +38,7 @@ def main():
         choice = get_user_choice("Escolha a opçao: ")
 
         if choice == "1":
-            print("\n [] Sistema de login...")
+            logged_user = login_user()
 
         elif choice == "2":
             register_user()
